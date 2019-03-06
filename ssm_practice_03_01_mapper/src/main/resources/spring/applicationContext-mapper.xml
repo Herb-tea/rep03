@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+
+
+        <!--Spring整合MyBatis框架-->
+        <!--配置连接池-->
+        <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+                <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+                <property name="jdbcUrl" value="jdbc:mysql:///ssmPra"/>
+                <property name="user" value="root"/>
+                <property name="password" value="root"/>
+        </bean>
+        <!--配置生产SqlSession对象的工厂，得到mapper代理对象，将代理对象也放入ioc容器来管理-->
+        <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+                <property name="dataSource" ref="dataSource" />
+        </bean>
+
+        <!--配置AccountDao接口所在包,告知是哪个包中的生成代理对象 id写不写都可以，因为其他地方用不上引用此-->
+        <bean id="mapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+                <property name="basePackage" value="com.itheima.mapper"/>
+        </bean>
+
+
+</beans>
